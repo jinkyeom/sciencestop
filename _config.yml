@@ -1,0 +1,20 @@
+
+title: 과학정류장
+description: 과학과 기술의 정류장, 최신 과학 큐레이션 블로그
+url: "https://sciencestop.kr"
+baseurl: ""
+
+theme: minima
+
+# 메뉴 설정
+menu:
+  - title: Home
+    url: /
+  - title: 우주
+    url: /category/space/
+  - title: 뇌
+    url: /category/brain/
+  - title: 생명
+    url: /category/life/
+  - title: AI
+    url: /category/ai/
