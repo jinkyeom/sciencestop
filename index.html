@@ -1,0 +1,70 @@
+---
+layout: default
+title: 과학정류장
+---
+
+<div class="container">
+  <h1>🔬 과학정류장에 오신 걸 환영합니다!</h1>
+  <p>우주, 뇌, 생명 등 흥미로운 과학 콘텐츠를 큐레이션합니다.</p>
+
+  <hr>
+
+  <h2>🧪 최신 과학 콘텐츠</h2>
+  <ul>
+    {% for post in site.posts limit:5 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span style="color: #888;">({{ post.date | date: "%Y-%m-%d" }})</span>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <hr>
+
+  <h2>📂 카테고리별 보기</h2>
+  <ul>
+    {% assign categories_list = site.categories | sort %}
+    {% for category in categories_list %}
+      <li style="margin-bottom: 1em;">
+        <h3>
+          <a href="/category/{{ category[0] | downcase }}/">{{ category[0] }}</a>
+        </h3>
+        <ul>
+          {% assign posts_in_category = category[1] | slice: 0, 3 %}
+          {% for post in posts_in_category %}
+            <li>
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              <span style="color: #aaa;">({{ post.date | date: "%Y-%m-%d" }})</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<style>
+  .container {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 2em;
+    font-family: "Helvetica Neue", sans-serif;
+  }
+  h1, h2, h3 {
+    color: #333;
+  }
+  a {
+    color: #005bbb;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  li {
+    margin-bottom: 0.5em;
+  }
+</style>
