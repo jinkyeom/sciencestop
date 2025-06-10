@@ -6,6 +6,11 @@ baseurl: ""
 
 theme: minima
 
+author: jinkyeom
+email: your@email.com
+lang: ko
+timezone: Asia/Seoul
+
 # 메뉴 설정
 menu:
   - title: Home
