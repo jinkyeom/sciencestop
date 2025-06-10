@@ -7,9 +7,11 @@ baseurl: ""
 theme: minima
 
 author: jinkyeom
-email: your@email.com
+email: jinkyeom.kim@gmail.com
 lang: ko
 timezone: Asia/Seoul
+permalink: /:categories/:title/
+google_analytics: GTM-554PWVGC
 
 # 메뉴 설정
 menu:
