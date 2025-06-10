@@ -16,6 +16,10 @@ google_analytics: GTM-554PWVGC
 paginate: 5   # 최신 글 5개만 첫 페이지에 보이게
 paginate_path: /page:num/
 
+markdown: kramdown
+kramdown:
+  input: GFM
+
 # 메뉴 설정
 menu:
   - title: Home
