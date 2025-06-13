@@ -49,19 +49,19 @@ function useDarkMode() {
 function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean }) {
   return (
     <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <NavLink to="/" className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400 dark:from-blue-400 dark:to-teal-300">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center gap-6">
+        <NavLink to="/" className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400 dark:from-blue-400 dark:to-teal-300 whitespace-nowrap">
           🔬 과학정류장
         </NavLink>
-        <nav className="hidden md:flex space-x-6">
+        <nav className="flex-1 hidden md:flex justify-end space-x-6">
           {categories.map((c) => (
-            <NavLink key={c} to={`/category/${c}`} className="text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">
+            <NavLink key={c} to={`/category/${c}`} className="text-sm font-medium text-gray-700 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">
               {c}
             </NavLink>
           ))}
         </nav>
-        <button onClick={toggleDark} aria-label="Theme Toggle" className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        <button onClick={toggleDark} aria-label="Theme Toggle" className="ml-4 p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
       </div>
     </header>
