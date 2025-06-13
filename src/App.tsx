@@ -84,46 +84,35 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function Home() {
-  const heroUrl = `https://picsum.photos/seed/hero${Date.now()%1000}/1920/1080`;
   return (
-    <div className="space-y-12">
+    <div className="space-y-24">
+      {/* Hero */}
       <motion.section
-        initial={{ opacity: 0, scale: 1.05 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
-        className="relative h-[70vh] w-full overflow-hidden rounded-b-3xl shadow-lg"
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-4xl mx-auto text-center pt-16"
       >
-        <motion.img
-          src={heroUrl}
-          alt="Hero"
-          className="absolute inset-0 w-full h-full object-cover"
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2, ease: "easeOut" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70 flex flex-col items-center justify-center text-center p-4">
-          <motion.h1
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg"
-          >
-            과학 정류장
-          </motion.h1>
-          <motion.p
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-2xl text-gray-200 max-w-2xl"
-          >
-            우주, 뇌, 생명, AI, 수학 등 최신 과학 이야기를 한 곳에서 만나보세요.
-          </motion.p>
-        </div>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+          🔬 과학정류장에 오신 걸 환영합니다!
+        </h1>
+        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
+          우주, 뇌, 생명 등 흥미로운 과학 콘텐츠를 큐레이션합니다.
+        </p>
       </motion.section>
 
+      {/* Latest Science Content placeholder */}
       <section className="max-w-6xl mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-6">카테고리</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h2 className="text-2xl font-bold mb-4">🧪 최신 과학 콘텐츠</h2>
+        <div className="h-32 flex items-center justify-center text-gray-500 dark:text-gray-400 border border-dashed rounded-lg">
+          (곧 업데이트될 콘텐츠 영역)
+        </div>
+      </section>
+
+      {/* Category grid */}
+      <section className="max-w-6xl mx-auto px-4">
+        <h2 className="text-2xl font-bold mb-6">📂 카테고리별 보기</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((cat) => (
             <CategoryCard key={cat} name={cat} />
           ))}
