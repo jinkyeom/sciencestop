@@ -1,0 +1,11 @@
+# Jekyll build artifacts
+_site/
+.sass-cache/
+.jekyll-cache/
+# Bundler and Ruby stuff
+.bundle/
+Gemfile.lock
+# Node modules
+node_modules/
+# macOS
+.DS_Store 
