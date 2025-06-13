@@ -16,7 +16,7 @@ function Sidebar({ setCategory }: { setCategory: (cat: string) => void }) {
         {collapsed ? "카테고리 열기" : "카테고리 접기"}
       </button>
       {!collapsed && (
-        <ul className="space-y-2">
+        <ul className="space-y-2 list-none p-0">
           {categories.map((cat) => (
             <li key={cat}>
               <NavLink
@@ -122,16 +122,31 @@ function CategoryCard({ name }: { name: string }) {
 
 function CategoryPage({ name }: { name: string }) {
   const query = categoryQuery[name] || "science";
+  const heroSrc = `https://source.unsplash.com/1600x600/?${query}`;
   const images = Array.from({ length: 6 }, (_, i) => `https://source.unsplash.com/600x400/?${query}&sig=${i}`);
+
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = `https://via.placeholder.com/600x400?text=${encodeURIComponent(name)}`;
+  };
+
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">📂 {name} 카테고리</h2>
+    <div className="space-y-8">
+      {/* Hero banner */}
+      <div className="relative h-56 md:h-72 w-full overflow-hidden rounded-2xl shadow-lg">
+        <img src={heroSrc} alt={`${name} hero`} className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">📂 {name} 카테고리</h2>
+        </div>
+      </div>
+
+      {/* Image grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {images.map((src, idx) => (
           <div key={idx} className="relative overflow-hidden rounded-lg shadow-md group">
             <img
               src={src}
               alt={`${name} 이미지 ${idx + 1}`}
+              onError={handleImgError}
               className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
