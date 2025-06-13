@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, NavLink } from "react-router-dom";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Microscope, Telescope } from "lucide-react";
 import "./index.css"; // Tailwind CSS import
 import { motion } from "framer-motion";
 
@@ -29,7 +29,12 @@ function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean })
           🔬 과학정류장
         </NavLink>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
+          {/* Dark toggle smaller and before category */}
+          <button onClick={toggleDark} aria-label="Theme Toggle" className="p-1 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            {dark ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
+          </button>
+
           {/* Category dropdown */}
           <div className="relative">
             <button onClick={() => setOpen((p) => !p)} className="text-sm font-medium text-gray-700 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
@@ -51,11 +56,6 @@ function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean })
               </ul>
             )}
           </div>
-
-          {/* Dark toggle */}
-          <button onClick={toggleDark} aria-label="Theme Toggle" className="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
         </div>
       </div>
     </header>
@@ -89,15 +89,19 @@ function Home() {
   return (
     <section className="relative -mt-14 h-screen w-full overflow-hidden">
       <img src={heroImg} alt="hero" className="absolute inset-0 w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-28 px-4 text-center">
+      <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-32 px-4 text-center">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
-            🔬 과학정류장에 오신 걸 환영합니다!
-          </h1>
+          <div className="flex items-center justify-center space-x-4 mb-4">
+            <Microscope className="w-8 h-8 text-white" />
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg whitespace-pre">
+              과학정류장에 오신 걸 환영합니다!
+            </h1>
+            <Telescope className="w-8 h-8 text-white" />
+          </div>
           <p className="text-lg md:text-2xl text-gray-200 max-w-3xl mx-auto">
             우주, 뇌, 생명 등 흥미로운 과학 콘텐츠를 큐레이션합니다.
           </p>
