@@ -5,7 +5,12 @@
 
 @layer base {
   html {
-    @apply bg-white dark:bg-gray-950 text-black dark:text-white;
+    background-color: #ffffff;
+    color: #000000;
+  }
+  html.dark {
+    background-color: #0f172a; /* slate-950 */
+    color: #ffffff;
   }
   body {
     @apply min-h-screen transition-colors duration-300;
