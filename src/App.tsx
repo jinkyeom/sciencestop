@@ -7,36 +7,27 @@ import { motion } from "framer-motion";
 const categories = ["우주", "뇌", "생명", "AI", "수학"];
 
 function Sidebar({ setCategory }: { setCategory: (cat: string) => void }) {
-  const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="w-60 bg-gray-100 dark:bg-gray-900 p-4 h-screen">
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="mb-4 text-sm text-gray-600 dark:text-gray-300"
-      >
-        {collapsed ? "카테고리 열기" : "카테고리 접기"}
-      </button>
-      {!collapsed && (
-        <ul className="space-y-2 list-none p-0">
-          {categories.map((cat) => (
-            <li key={cat}>
-              <NavLink
-                to={`/category/${cat}`}
-                onClick={() => setCategory(cat)}
-                className={({ isActive }) =>
-                  `block px-4 py-2 rounded-md text-sm font-medium transition ${
-                    isActive
-                      ? "bg-blue-500 text-white"
-                      : "text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
-                  }`
-                }
-              >
-                {cat}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="w-56 bg-gray-100 dark:bg-gray-900 p-4 h-screen">
+      <ul className="space-y-2 list-none p-0">
+        {categories.map((cat) => (
+          <li key={cat}>
+            <NavLink
+              to={`/category/${cat}`}
+              onClick={() => setCategory(cat)}
+              className={({ isActive }) =>
+                `block px-4 py-2 rounded-md text-sm font-medium transition ${
+                  isActive
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+                }`
+              }
+            >
+              {cat}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -153,7 +144,8 @@ function CategoryPage({ name }: { name: string }) {
   const images = Array.from({ length: 6 }, (_, i) => `https://source.unsplash.com/600x400/?${query}&sig=${i}`);
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = `https://via.placeholder.com/600x400?text=${encodeURIComponent(name)}`;
+    const seed = Math.floor(Math.random() * 1000);
+    e.currentTarget.src = `https://picsum.photos/seed/${seed}/600/400`;
   };
 
   return (
