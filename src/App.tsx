@@ -29,20 +29,25 @@ function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean })
           🔬 과학정류장
         </NavLink>
 
-        <div className="flex items-center space-x-3 w-full">
-          {/* Logo already placed; now Category button follows */}
+        <div className="flex items-center space-x-3">
+          {/* Dark toggle smaller and before category */}
+          <button onClick={toggleDark} aria-label="Theme Toggle" className="p-1 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            {dark ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
+          </button>
+
+          {/* Category dropdown */}
           <div className="relative">
             <button onClick={() => setOpen((p) => !p)} className="text-sm font-medium text-gray-700 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
               카테고리
             </button>
             {open && (
-              <ul className="absolute left-0 top-full mt-2 bg-white dark:bg-gray-800 shadow-lg rounded-md py-2 px-3 flex space-x-4 border border-gray-200 dark:border-gray-700">
+              <ul className="absolute left-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md py-2 border border-gray-200 dark:border-gray-700">
                 {categories.map((c) => (
                   <li key={c}>
                     <NavLink
                       to={`/category/${c}`}
                       onClick={() => setOpen(false)}
-                      className="text-sm text-gray-700 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 whitespace-nowrap"
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       {c}
                     </NavLink>
@@ -51,14 +56,6 @@ function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean })
               </ul>
             )}
           </div>
-
-          {/* Spacer */}
-          <span className="flex-grow" />
-
-          {/* Dark toggle smaller at far right */}
-          <button onClick={toggleDark} aria-label="Theme Toggle" className="p-1 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            {dark ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
-          </button>
         </div>
       </div>
     </header>
@@ -92,7 +89,7 @@ function Home() {
   return (
     <section className="relative -mt-14 h-screen w-full overflow-hidden">
       <img src={heroImg} alt="hero" className="absolute inset-0 w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-44 px-4 text-center">
+      <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-52 px-4 text-center">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
