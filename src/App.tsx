@@ -23,32 +23,34 @@ function useDarkMode() {
 function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean }) {
   const [open, setOpen] = useState(false);
   return (
-    <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         <NavLink to="/" className="text-xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400 dark:from-blue-400 dark:to-teal-300 whitespace-nowrap">
           🔬 과학정류장
         </NavLink>
 
-        <div className="flex items-center space-x-4 relative">
+        <div className="flex items-center space-x-4">
           {/* Category dropdown */}
-          <button onClick={() => setOpen((p) => !p)} className="text-sm font-medium text-gray-700 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
-            카테고리
-          </button>
-          {open && (
-            <ul className="absolute right-10 top-10 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md py-2 border border-gray-200 dark:border-gray-700">
-              {categories.map((c) => (
-                <li key={c}>
-                  <NavLink
-                    to={`/category/${c}`}
-                    onClick={() => setOpen(false)}
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    {c}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className="relative">
+            <button onClick={() => setOpen((p) => !p)} className="text-sm font-medium text-gray-700 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+              카테고리
+            </button>
+            {open && (
+              <ul className="absolute left-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-md py-2 border border-gray-200 dark:border-gray-700">
+                {categories.map((c) => (
+                  <li key={c}>
+                    <NavLink
+                      to={`/category/${c}`}
+                      onClick={() => setOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      {c}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
           {/* Dark toggle */}
           <button onClick={toggleDark} aria-label="Theme Toggle" className="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -57,6 +59,14 @@ function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean })
         </div>
       </div>
     </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      © 2025 과학정류장 – All rights reserved.
+    </footer>
   );
 }
 
@@ -69,6 +79,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1 p-6 overflow-y-auto">
         {children}
       </main>
+      <Footer />
     </div>
   );
 }
@@ -79,7 +90,7 @@ function Home() {
       initial={{ opacity: 0, y: 60 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="max-w-4xl mx-auto text-center pt-16"
+      className="max-w-4xl mx-auto text-center pt-20"
     >
       <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
         🔬 과학정류장에 오신 걸 환영합니다!
