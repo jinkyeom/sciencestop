@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, NavLink } from "react-router-dom";
 import { Moon, Sun } from "lucide-react";
 import "./index.css"; // Tailwind CSS import
+import { motion } from "framer-motion";
 
 const categories = ["우주", "뇌", "생명", "AI", "수학"];
 
@@ -67,17 +68,39 @@ function Home() {
   const heroUrl = "https://source.unsplash.com/random/1920x1080/?galaxy,science";
   return (
     <div className="space-y-12">
-      <section className="relative h-[70vh] w-full overflow-hidden rounded-b-3xl shadow-lg">
-        <img src={heroUrl} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
+      <motion.section
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+        className="relative h-[70vh] w-full overflow-hidden rounded-b-3xl shadow-lg"
+      >
+        <motion.img
+          src={heroUrl}
+          alt="Hero"
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 2, ease: "easeOut" }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70 flex flex-col items-center justify-center text-center p-4">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">
+          <motion.h1
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg"
+          >
             과학 정류장
-          </h1>
-          <p className="text-lg md:text-2xl text-gray-200 max-w-2xl">
+          </motion.h1>
+          <motion.p
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-lg md:text-2xl text-gray-200 max-w-2xl"
+          >
             우주, 뇌, 생명, AI, 수학 등 최신 과학 이야기를 한 곳에서 만나보세요.
-          </p>
+          </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       <section className="max-w-6xl mx-auto px-4">
         <h2 className="text-2xl font-bold mb-6">카테고리</h2>
@@ -103,20 +126,24 @@ function CategoryCard({ name }: { name: string }) {
   const query = categoryQuery[name] || "science";
   const src = `https://source.unsplash.com/random/600x400/?${query}&sig=${name}`;
   return (
-    <NavLink
-      to={`/category/${name}`}
-      className="relative group rounded-xl overflow-hidden shadow-lg"
-    >
-      <img
-        src={src}
-        alt={name}
-        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-      />
-      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300" />
-      <h3 className="absolute inset-x-0 bottom-0 p-4 text-xl font-semibold text-white drop-shadow-md">
-        {name}
-      </h3>
-    </NavLink>
+    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+      <NavLink
+        to={`/category/${name}`}
+        className="relative group rounded-xl overflow-hidden shadow-lg"
+      >
+        <motion.img
+          src={src}
+          alt={name}
+          className="w-full h-48 object-cover"
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.3 }}
+        />
+        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-300" />
+        <h3 className="absolute inset-x-0 bottom-0 p-4 text-xl font-semibold text-white drop-shadow-md">
+          {name}
+        </h3>
+      </NavLink>
+    </motion.div>
   );
 }
 
