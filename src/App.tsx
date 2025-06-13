@@ -39,7 +39,7 @@ function useDarkMode() {
   });
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
+    document.body.classList.toggle("dark", darkMode);
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
