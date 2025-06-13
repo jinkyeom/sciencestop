@@ -85,20 +85,25 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function Home() {
+  const heroImg = `https://picsum.photos/seed/hero${Date.now() % 1000}/1920/1080`;
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 60 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="max-w-4xl mx-auto text-center pt-20"
-    >
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-        🔬 과학정류장에 오신 걸 환영합니다!
-      </h1>
-      <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
-        우주, 뇌, 생명 등 흥미로운 과학 콘텐츠를 큐레이션합니다.
-      </p>
-    </motion.section>
+    <section className="relative -mt-14 h-screen w-full overflow-hidden">
+      <img src={heroImg} alt="hero" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-28 px-4 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg">
+            🔬 과학정류장에 오신 걸 환영합니다!
+          </h1>
+          <p className="text-lg md:text-2xl text-gray-200 max-w-3xl mx-auto">
+            우주, 뇌, 생명 등 흥미로운 과학 콘텐츠를 큐레이션합니다.
+          </p>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
