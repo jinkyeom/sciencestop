@@ -64,11 +64,43 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function Home() {
-  return <div>과학 정류장에 오신 것을 환영합니다!</div>;
+  const heroUrl = "https://source.unsplash.com/1600x900/?science,technology";
+  return (
+    <section
+      className="relative h-64 md:h-96 w-full rounded-lg overflow-hidden shadow-lg"
+      style={{ backgroundImage: `url(${heroUrl})`, backgroundSize: "cover", backgroundPosition: "center" }}
+    >
+      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+        <h1 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg">과학 정류장에 오신 것을 환영합니다!</h1>
+      </div>
+    </section>
+  );
 }
 
+const categoryQuery: Record<string, string> = {
+  "우주": "space",
+  "뇌": "brain",
+  "생명": "biology",
+  AI: "artificial-intelligence",
+  "수학": "mathematics",
+};
+
 function CategoryPage({ name }: { name: string }) {
-  return <div className="text-lg">📂 {name} 카테고리의 글 목록</div>;
+  const query = categoryQuery[name] || "science";
+  const images = Array.from({ length: 6 }, (_, i) => `https://source.unsplash.com/600x400/?${query}&sig=${i}`);
+  return (
+    <div>
+      <h2 className="text-2xl font-semibold mb-4">📂 {name} 카테고리</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {images.map((src, idx) => (
+          <div key={idx} className="relative overflow-hidden rounded-lg shadow-md group">
+            <img src={src} alt={`${name} 이미지 ${idx + 1}`} className="w-full h-48 object-cover transition-transform group-hover:scale-105" />
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function App() {
