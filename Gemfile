@@ -1,7 +1,0 @@
-source "https://rubygems.org"
-
-gem "jekyll", "~> 4.3.4"
-gem "minima", "~> 2.5"
-gem "minimal-mistakes-jekyll"
-gem "csv"  # ← 이 줄을 추가!
-gem 'base64'
