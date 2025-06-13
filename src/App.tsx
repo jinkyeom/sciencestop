@@ -32,31 +32,57 @@ function Sidebar({ setCategory }: { setCategory: (cat: string) => void }) {
   );
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
-  const [darkMode, setDarkMode] = useState(false);
-  const [, setCategory] = useState("");
+// Persisted dark mode hook
+function useDarkMode() {
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
+  return [darkMode, setDarkMode] as const;
+}
+
+function Header({ toggleDark, dark }: { toggleDark: () => void; dark: boolean }) {
   return (
-    <div className="flex min-h-screen bg-white dark:bg-gray-950 text-black dark:text-white">
-      <Sidebar setCategory={setCategory} />
-      <div className="flex-1 p-6">
-        <div className="flex justify-end mb-4">
-          <button onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-        </div>
-        {children}
+    <header className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-800">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <NavLink to="/" className="text-xl font-bold text-blue-600 dark:text-blue-400">과학정류장</NavLink>
+        <nav className="hidden md:flex space-x-4">
+          {categories.map((c) => (
+            <NavLink key={c} to={`/category/${c}`} className="text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">
+              {c}
+            </NavLink>
+          ))}
+        </nav>
+        <button onClick={toggleDark} className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800">
+          {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
       </div>
+    </header>
+  );
+}
+
+function Layout({ children }: { children: React.ReactNode }) {
+  const [darkMode, setDarkMode] = useDarkMode();
+  const [, setCategory] = useState("");
+
+  return (
+    <div className="flex min-h-screen pt-14 bg-white dark:bg-gray-950 text-black dark:text-white">
+      <Header toggleDark={() => setDarkMode(!darkMode)} dark={darkMode} />
+      <Sidebar setCategory={setCategory} />
+      <main className="flex-1 p-6 overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 }
 
 function Home() {
-  const heroUrl = "https://source.unsplash.com/random/1920x1080/?galaxy,science";
+  const heroUrl = `https://picsum.photos/seed/hero${Date.now()%1000}/1920/1080`;
   return (
     <div className="space-y-12">
       <motion.section
@@ -115,7 +141,7 @@ const categoryQuery: Record<string, string> = {
 
 function CategoryCard({ name }: { name: string }) {
   const query = categoryQuery[name] || "science";
-  const src = `https://source.unsplash.com/random/600x400/?${query}&sig=${name}`;
+  const src = `https://picsum.photos/seed/${query}-${name}/600/400`;
   return (
     <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
       <NavLink
@@ -140,8 +166,8 @@ function CategoryCard({ name }: { name: string }) {
 
 function CategoryPage({ name }: { name: string }) {
   const query = categoryQuery[name] || "science";
-  const heroSrc = `https://source.unsplash.com/1600x600/?${query}`;
-  const images = Array.from({ length: 6 }, (_, i) => `https://source.unsplash.com/600x400/?${query}&sig=${i}`);
+  const heroSrc = `https://picsum.photos/seed/${query}-banner/1600/600`;
+  const images = Array.from({ length: 6 }, (_, i) => `https://picsum.photos/seed/${query}-${i}/600/400`);
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const seed = Math.floor(Math.random() * 1000);
