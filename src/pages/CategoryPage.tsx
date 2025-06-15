@@ -10,6 +10,14 @@ const categoryDescriptions = {
   math: '자연을 이해하는 수학적 언어'
 }
 
+const categoryNameMap = {
+  space: '우주',
+  brain: '뇌',
+  life: '생명',
+  ai: 'AI',
+  math: '수학'
+}
+
 // 임시 데이터 생성 함수
 function generateArticles(category: string) {
   return Array.from({ length: 6 }, (_, i) => ({
@@ -23,23 +31,27 @@ function generateArticles(category: string) {
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>()
-  const categoryName = category ? category.charAt(0).toUpperCase() + category.slice(1) : ''
+  const koreanCategoryName = category ? categoryNameMap[category as keyof typeof categoryNameMap] : ''
   const description = category ? categoryDescriptions[category as keyof typeof categoryDescriptions] || '' : ''
-  const articles = generateArticles(categoryName || '일반')
+  const articles = generateArticles(koreanCategoryName || '일반')
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen">
       <Hero
-        category={categoryName}
-        title={`${categoryName} 카테고리`}
+        category={koreanCategoryName}
+        title={`${koreanCategoryName} 카테고리`}
         description={description}
       />
       
-      <main className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
-            <ArticleCard key={article.slug} {...article} />
-          ))}
+      <div className="h-[150vh]" />
+      
+      <main className="relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-16">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-center gap-2">
+            {articles.map((article) => (
+              <ArticleCard key={article.slug} {...article} />
+            ))}
+          </div>
         </div>
       </main>
     </div>

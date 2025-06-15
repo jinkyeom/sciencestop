@@ -52,3 +52,9 @@ export default tseslint.config({
   },
 })
 ```
+
+과학정류장에 오신 걸 환영합니다!
+
+우주, 뇌, 생명 등 흥미로운 과학 콘텐츠를 큐레이션합니다.
+
+이 프로젝트는 Next.js와 TypeScript로 만들어졌습니다.
