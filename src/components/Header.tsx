@@ -6,6 +6,7 @@ export default function Header() {
   const location = useLocation()
   const [darkMode, setDarkMode] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [hideHeader, setHideHeader] = useState(false)
 
   useEffect(() => {
     const isDark = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -17,6 +18,23 @@ export default function Header() {
     document.documentElement.classList.toggle('dark', darkMode)
     localStorage.setItem('theme', darkMode ? 'dark' : 'light')
   }, [darkMode])
+
+  // 스크롤 방향에 따라 헤더 숨김/표시
+  useEffect(() => {
+    let lastY = window.scrollY
+    const onScroll = () => {
+      const current = window.scrollY
+      const diff = current - lastY
+      if (current > 120 && diff > 0) {
+        setHideHeader(true)
+      } else if (diff < 0) {
+        setHideHeader(false)
+      }
+      lastY = current
+    }
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode)
@@ -32,7 +50,7 @@ export default function Header() {
   ]
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none">
+    <header className={`fixed top-0 left-0 right-0 z-50 w-full pointer-events-none transition-transform duration-300 ${hideHeader ? '-translate-y-full' : 'translate-y-0'}`}>
       <div className="flex justify-between items-start p-4 gap-2 pointer-events-auto">
         {/* 좌측 로고/타이틀 */}
         <Link to="/" className="text-xl font-bold text-white dark:text-gray-200 hover:text-blue-400 dark:hover:text-blue-300 transition-colors hidden md:block">

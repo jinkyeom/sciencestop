@@ -43,9 +43,7 @@ export default function CategoryPage() {
         description={description}
       />
       
-      <div className="h-[150vh]" />
-      
-      <main className="relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-16">
+      <main className="relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-16 -mt-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-2">
             {articles.map((article) => (
