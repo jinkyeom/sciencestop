@@ -22,7 +22,11 @@ export interface PostMeta {
 // Vite 정적 임포트로 모든 markdown 원본 가져오기
 type RawModule = { default: string }
 
-const files = import.meta.glob<RawModule>('/src/posts/**/*.md', { as: 'raw', eager: true })
+const files = import.meta.glob<RawModule>('/src/posts/**/*.md', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
 
 export const posts: PostMeta[] = Object.entries(files).map(([path, raw]) => {
   const slugMatch = path.match(/\/src\/posts\/(.*).md$/)
@@ -49,7 +53,10 @@ export const posts: PostMeta[] = Object.entries(files).map(([path, raw]) => {
 
 // 본문 가져오기
 type BodyModule = { default: string }
-const bodyMap = import.meta.glob<BodyModule>('/src/posts/**/*.md', { as: 'raw' })
+const bodyMap = import.meta.glob<BodyModule>('/src/posts/**/*.md', {
+  query: '?raw',
+  import: 'default',
+})
 
 export async function getPostBody(slug: string) {
   const importer = bodyMap[`/src/posts/${slug}.md`]

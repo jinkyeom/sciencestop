@@ -5,9 +5,12 @@ import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
+import remarkMath from 'remark-math'
 import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeKatex from 'rehype-katex'
+import React from 'react'
 
 export default function Home() {
   const firstPost = posts[0]
@@ -58,8 +61,8 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
               <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkBreaks]}
-                rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
+                remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+                rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings, rehypeKatex]}
                 components={{
                   h2: (props) => (
                     <h2
@@ -75,24 +78,20 @@ export default function Home() {
                   ),
                   /* eslint-disable @typescript-eslint/no-explicit-any */
                   li: ({ children, ...props }) => {
-                    const extractText = (n: unknown): string => {
+                    const extractPlain = (n: unknown): string => {
                       if (typeof n === 'string') return n
-                      if (Array.isArray(n)) return n.map(extractText).join('')
+                      if (Array.isArray(n)) return n.map(extractPlain).join('')
                       if (typeof n === 'object' && n !== null && 'props' in (n as any)) {
                         const c = (n as any).props?.children
-                        if (c) return extractText(c)
+                        if (c) return extractPlain(c)
                       }
                       return ''
                     }
-                    const plain = extractText(children).trim()
-                    const match = plain.match(/^\[?(\d{2}):(\d{2})\]?\s*(.*)$/)
-                    if (match) {
-                      const [, mm, ss, restText] = match
-                      const timeText = `${mm}:${ss}`
+                    const plain = extractPlain(children)
+                    if (/^\[?\d{2}:\d{2}\]?/.test(plain)) {
                       return (
-                        <li className="flex flex-wrap gap-x-2" {...props}>
-                          <span className="inline-block w-16 font-mono text-teal-400">[{timeText}]</span>
-                          <span className="flex-1">{restText}</span>
+                        <li data-timestamp className="timestamp-li list-none" {...props}>
+                          {children}
                         </li>
                       )
                     }

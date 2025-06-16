@@ -1,5 +1,6 @@
 /* Tailwind CSS */
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -85,4 +86,21 @@ html:not(.dark) {
   @apply bg-white text-gray-900;
   background-color: #ffffff !important;
   color: #0f172a !important;
+}
+
+/* Indent all direct children inside timestamp list item */
+li[data-timestamp] > * {
+  padding-left: 0;
+}
+
+/* hanging indent using text-indent */
+li[data-timestamp] {
+  padding-left: 4.1rem;
+  text-indent: -4.1rem;
+}
+
+/* hanging indent for post page wider */
+.post-content li[data-timestamp] {
+  padding-left: 5.5rem;
+  text-indent: -5.5rem;
 }

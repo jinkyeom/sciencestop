@@ -2,10 +2,14 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState, useRef, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import remarkBreaks from 'remark-breaks'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeRaw from 'rehype-raw'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
 import { posts, getPostBody } from '../lib/posts'
+import React from 'react'
 
 export default function PostPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -51,19 +55,17 @@ export default function PostPage() {
             return { id: item.id, top: el.getBoundingClientRect().top }
           })
 
-          // 후보 헤딩: 화면 상단 120px 이내에 있는 것 중 가장 아래쪽
-          const candidate = headingsPos
-            .filter((h) => h.top <= 120 && h.top >= 0)
-            .sort((a, b) => b.top - a.top)[0]
+          // 맨 아래 근접 여부 먼저 확인
+          const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+          let idToSet: string | undefined
 
-          let idToSet = candidate?.id
-
-          // 스크롤이 거의 맨 아래라면 마지막 헤딩을 활성화
-          if (!idToSet) {
-            const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 5
-            if (atBottom) {
-              idToSet = list[list.length - 1]?.id
-            }
+          if (atBottom) {
+            idToSet = list[list.length - 1]?.id
+          } else {
+            const candidate = headingsPos
+              .filter((h) => h.top <= 120 && h.top >= 0)
+              .sort((a, b) => b.top - a.top)[0]
+            idToSet = candidate?.id
           }
 
           if (idToSet && idToSet !== activeId) {
@@ -103,7 +105,7 @@ export default function PostPage() {
     <div className="container mx-auto flex gap-8 py-16">
       <article
         ref={articleRef}
-        className="prose dark:prose-invert lg:prose-lg flex-1"
+        className="prose dark:prose-invert lg:prose-lg flex-1 post-content"
       >
         <h1>{meta.title}</h1>
         <p className="text-sm opacity-70 mb-6">
@@ -114,8 +116,8 @@ export default function PostPage() {
         </p>
 
         <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
+          remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+          rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings, rehypeKatex]}
           components={{
             iframe: (props) => {
               let src = props.src as string
@@ -123,7 +125,7 @@ export default function PostPage() {
                 const join = src.includes('?') ? '&' : '?'
                 src += `${join}enablejsapi=1&cc_load_policy=1&cc_lang_pref=ko&hl=ko`
               }
-              return <iframe {...props} src={src} className="w-full aspect-video" />
+              return <iframe ref={iframeRef} {...props} src={src} className="w-full aspect-video" />
             },
             a: ({ href, children, ...props }) => {
               if (href && href.startsWith('#t')) {
@@ -145,26 +147,22 @@ export default function PostPage() {
               return <a href={href} {...props}>{children}</a>
             },
             li: ({ children, ...props }) => {
-              const extractText = (n: unknown): string => {
+              const extractPlain = (n: unknown): string => {
                 if (typeof n === 'string') return n
-                if (Array.isArray(n)) return n.map(extractText).join('')
+                if (Array.isArray(n)) return n.map(extractPlain).join('')
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 if (typeof n === 'object' && n !== null && 'props' in (n as any)) {
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   const c = (n as any).props?.children
-                  if (c) return extractText(c)
+                  if (c) return extractPlain(c)
                 }
                 return ''
               }
-              const plain = extractText(children).trim()
-              const match = plain.match(/^\[?(\d{2}):(\d{2})\]?\s*(.*)$/)
-              if (match) {
-                const [, mm, ss, restText] = match
-                const timeText = `${mm}:${ss}`
+              const plain = extractPlain(children)
+              if (/^\[?\d{2}:\d{2}\]?/.test(plain)) {
                 return (
-                  <li className="flex flex-wrap gap-x-2" {...props}>
-                    <span className="inline-block w-16 font-mono text-teal-400">[{timeText}]</span>
-                    <span className="flex-1">{restText}</span>
+                  <li data-timestamp className="timestamp-li list-none" {...props}>
+                    {children}
                   </li>
                 )
               }
