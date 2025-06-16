@@ -4,6 +4,8 @@ import { posts, getPostBody } from '../lib/posts'
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+// @ts-expect-error - no types for remark-breaks
+import remarkBreaks from 'remark-breaks'
 import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -57,7 +59,7 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
               <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
+                remarkPlugins={[remarkGfm, remarkBreaks]}
                 rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
               >
                 {firstBody}
