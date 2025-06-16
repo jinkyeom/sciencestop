@@ -1,9 +1,12 @@
 import matter from 'gray-matter'
 import { Buffer } from 'buffer'
 
-if (typeof globalThis !== 'undefined' && !(globalThis as { Buffer?: typeof Buffer }).Buffer) {
-  ;(globalThis as { Buffer: typeof Buffer }).Buffer = Buffer
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Browser 환경에서 Buffer 사용을 위해 polyfill 등록 (TS 타입 오류 방지)
+if (typeof globalThis !== 'undefined' && !(globalThis as any).Buffer) {
+  ;(globalThis as any).Buffer = Buffer
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export interface PostMeta {
   slug: string // 파일명(확장자 제외)
