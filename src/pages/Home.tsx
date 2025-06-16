@@ -10,7 +10,6 @@ import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
-import React from 'react'
 
 export default function Home() {
   const firstPost = posts[0]

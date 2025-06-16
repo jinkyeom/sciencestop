@@ -9,7 +9,6 @@ import rehypeRaw from 'rehype-raw'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import { posts, getPostBody } from '../lib/posts'
-import React from 'react'
 
 export default function PostPage() {
   const { slug } = useParams<{ slug: string }>()
