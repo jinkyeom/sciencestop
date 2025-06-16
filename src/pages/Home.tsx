@@ -72,7 +72,33 @@ export default function Home() {
                       {...props}
                       className="mt-8 mb-3 text-2xl leading-snug font-bold text-white"
                     />
-                  )
+                  ),
+                  /* eslint-disable @typescript-eslint/no-explicit-any */
+                  li: ({ children, ...props }) => {
+                    const extractText = (n: unknown): string => {
+                      if (typeof n === 'string') return n
+                      if (Array.isArray(n)) return n.map(extractText).join('')
+                      if (typeof n === 'object' && n !== null && 'props' in (n as any)) {
+                        const c = (n as any).props?.children
+                        if (c) return extractText(c)
+                      }
+                      return ''
+                    }
+                    const plain = extractText(children).trim()
+                    const match = plain.match(/^\[?(\d{2}):(\d{2})\]?\s*(.*)$/)
+                    if (match) {
+                      const [, mm, ss, restText] = match
+                      const timeText = `${mm}:${ss}`
+                      return (
+                        <li className="flex flex-wrap gap-x-2" {...props}>
+                          <span className="inline-block w-16 font-mono text-teal-400">[{timeText}]</span>
+                          <span className="flex-1">{restText}</span>
+                        </li>
+                      )
+                    }
+                    return <li {...props}>{children}</li>
+                  },
+                  /* eslint-enable @typescript-eslint/no-explicit-any */
                 }}
               >
                 {firstBody}

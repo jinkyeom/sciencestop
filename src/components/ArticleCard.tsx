@@ -20,9 +20,10 @@ export default function ArticleCard({ title, category, slug, imageQuery, thumbna
     ? 'w-14 h-14 rounded-full'
     : 'w-28 h-20 rounded-lg'
 
+  const placeholderText = category.length <= 2 ? category : category.slice(0, 2)
   const placeholder = (
     <div className={`${imageClass} flex items-center justify-center bg-gradient-to-br from-teal-400 to-blue-500 text-white font-bold text-xs select-none mb-2`}>
-      {category.charAt(0)}
+      {placeholderText}
     </div>
   )
 
