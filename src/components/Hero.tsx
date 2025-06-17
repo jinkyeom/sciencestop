@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import spaceImage from '../assets/space.jpg'
 import brainImage from '../assets/brain.png'
 import lifeImage from '../assets/life.jpg'
@@ -22,7 +23,6 @@ const categoryImages: Record<string, string> = {
 }
 
 const categories = [
-  { name: '홈', query: 'science-technology-innovation', emoji: '🏠' },
   { name: '우주', query: 'space-astronomy-telescope', emoji: '🌌' },
   { name: '뇌', query: 'neuroscience-brain-research', emoji: '🧠' },
   { name: '생명', query: 'biology-microscope-cell', emoji: '🧬' },
@@ -35,6 +35,10 @@ export default function Hero({ category, title, description, isHome = false }: H
 
   const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % categories.length)
+  }, [])
+
+  const goToPrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + categories.length) % categories.length)
   }, [])
 
   useEffect(() => {
@@ -61,7 +65,7 @@ export default function Hero({ category, title, description, isHome = false }: H
   const imageUrl = isHome ? categoryImages[currentCategory.name] : categoryImages[category || '홈']
 
   return (
-    <div className="relative h-[100vh] w-full overflow-hidden bg-gray-900">
+    <div className="relative h-[100vh] w-full overflow-hidden bg-white dark:bg-gray-900">
       <div className="absolute inset-0 w-full h-full">
         <img
           src={imageUrl}
@@ -73,6 +77,26 @@ export default function Hero({ category, title, description, isHome = false }: H
       {/* 메인 문구 주변 배경 음영만 살리고 전체 오버레이는 제거 */}
       
       <div className="relative h-full flex flex-col justify-start items-center text-center p-4 pt-28 md:pt-36">
+        {/* 좌우 네비게이션 버튼 (홈에서만 표시) */}
+        {isHome && (
+          <>
+            <button
+              onClick={goToPrev}
+              aria-label="이전 카테고리"
+              className="absolute top-1/2 left-4 -translate-y-1/2 text-white hover:text-blue-300 transition-colors focus:outline-none !bg-transparent !border-none"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <button
+              onClick={goToNext}
+              aria-label="다음 카테고리"
+              className="absolute top-1/2 right-4 -translate-y-1/2 text-white hover:text-blue-300 transition-colors focus:outline-none !bg-transparent !border-none"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
         <div className="max-w-4xl mx-auto pt-16">
           {isHome ? (
             <>
@@ -93,7 +117,7 @@ export default function Hero({ category, title, description, isHome = false }: H
                     onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setCurrentIndex(idx)}
                     className={`cursor-pointer w-2 h-2 rounded-full outline-none transition-transform ${
                       currentIndex === idx
-                        ? 'bg-blue-500 scale-150'
+                        ? 'bg-purple-400 scale-150'
                         : 'bg-gray-400/70'
                     }`}
                     aria-label={`${cat.name} 보기`}

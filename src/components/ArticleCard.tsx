@@ -9,9 +9,10 @@ interface ArticleCardProps {
   imageQuery?: string
   thumbnail?: string
   shape?: 'circle' | 'rounded'
+  showCategory?: boolean
 }
 
-export default function ArticleCard({ title, category, slug, imageQuery, thumbnail, shape = 'circle' }: ArticleCardProps) {
+export default function ArticleCard({ title, category, slug, imageQuery, thumbnail, shape = 'circle', showCategory = true }: ArticleCardProps) {
   const fallbackImage = `https://source.unsplash.com/400x300/?${imageQuery || category.toLowerCase()}`
   const [imgSrc] = useState(thumbnail || fallbackImage)
   const [imgError, setImgError] = useState(false)
@@ -51,9 +52,11 @@ export default function ArticleCard({ title, category, slug, imageQuery, thumbna
         <h3 className="text-[11px] font-medium text-gray-900 dark:text-white max-w-[90px] line-clamp-2">
           {title}
         </h3>
-        <span className="inline-block text-[9px] px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-          {category}
-        </span>
+        {showCategory && (
+          <span className="inline-block text-[9px] px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+            {category}
+          </span>
+        )}
       </div>
     </Link>
   )

@@ -9,15 +9,11 @@ export default function Header() {
   const [hideHeader, setHideHeader] = useState(false)
 
   useEffect(() => {
-    const isDark = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const stored = localStorage.getItem('theme')
+    const isDark = stored === 'dark'
     setDarkMode(isDark)
     document.documentElement.classList.toggle('dark', isDark)
   }, [])
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode)
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light')
-  }, [darkMode])
 
   // 스크롤 방향에 따라 헤더 숨김/표시
   useEffect(() => {
@@ -37,11 +33,13 @@ export default function Header() {
   }, [])
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
+    document.documentElement.classList.toggle('dark')
+    const isDark = document.documentElement.classList.contains('dark')
+    localStorage.setItem('theme', isDark ? 'dark' : 'light')
+    setDarkMode(isDark)
   }
 
   const menuItems = [
-    { title: '홈', href: '/' },
     { title: '우주', href: '/category/space' },
     { title: '뇌', href: '/category/brain' },
     { title: '생명', href: '/category/life' },
@@ -50,10 +48,10 @@ export default function Header() {
   ]
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 w-full pointer-events-none transition-transform duration-300 ${hideHeader ? '-translate-y-full' : 'translate-y-0'}`}>
-      <div className="flex justify-between items-start p-4 gap-2 pointer-events-auto">
+    <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-transform duration-300 ${hideHeader ? '-translate-y-full' : 'translate-y-0'}`}>
+      <div className="flex justify-between items-start p-4 gap-2">
         {/* 좌측 로고/타이틀 */}
-        <Link to="/" className="text-xl font-bold text-white dark:text-gray-200 hover:text-blue-400 dark:hover:text-blue-300 transition-colors hidden md:block">
+        <Link to="/" className="text-xl font-bold !text-purple-300 hover:!text-purple-400 dark:!text-purple-300 dark:hover:!text-purple-400 transition-colors hidden md:block">
           과학정류장
         </Link>
         {/* 우측 메뉴/토글 */}
@@ -70,8 +68,8 @@ export default function Header() {
                   to={item.href}
                   className={`px-3 py-2 rounded-md text-lg font-bold transition-colors ${
                     isActive
-                      ? 'text-blue-400 bg-blue-900/20'
-                      : '!text-white hover:!text-blue-300 hover:bg-gray-700/40'
+                      ? 'text-purple-300 bg-purple-900/20'
+                      : '!text-white hover:!text-purple-300 hover:bg-gray-700/40'
                   }`}
                 >
                   {item.title}
@@ -84,7 +82,7 @@ export default function Header() {
           <button
             onClick={toggleDarkMode}
             aria-label="Toggle dark mode"
-            className="p-2 rounded-full hover:bg-gray-700/30 dark:hover:bg-gray-700 transition-colors"
+            className="p-2 rounded-full !bg-transparent !border-none hover:bg-gray-700/30 dark:hover:bg-gray-700 transition-colors"
           >
             {darkMode ? (
               <Sun className="w-5 h-5 text-white" />
@@ -96,14 +94,14 @@ export default function Header() {
           {/* 모바일 햄버거 메뉴 */}
           <div className="md:hidden relative">
             <button
-              className="p-2 rounded-md text-gray-200 dark:text-gray-300 hover:bg-gray-700/30 dark:hover:bg-gray-800"
+              className="p-2 rounded-md text-gray-200 dark:text-gray-300 !bg-transparent !border-none hover:bg-gray-700/30 dark:hover:bg-gray-800"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="메뉴 열기"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
             {mobileMenuOpen && (
-              <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg p-2 z-50">
+              <div className="absolute top-full right-0 mt-2 w-24 bg-white dark:bg-gray-900 rounded-lg shadow-lg p-2 z-50">
                 <nav className="flex flex-col gap-1">
                   {menuItems.map((item) => {
                     const isActive = item.href === '/'
@@ -115,8 +113,8 @@ export default function Header() {
                         to={item.href}
                         className={`block px-3 py-2 rounded-md text-lg font-bold transition-colors ${
                           isActive
-                            ? 'text-blue-400 bg-blue-900/20'
-                            : '!text-white hover:!text-blue-300 hover:bg-gray-700/40'
+                            ? 'text-purple-300 bg-purple-900/20'
+                            : '!text-white hover:!text-purple-300 hover:bg-gray-700/40'
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >

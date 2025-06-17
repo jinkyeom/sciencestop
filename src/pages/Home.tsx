@@ -12,15 +12,17 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
 
 export default function Home() {
-  const firstPost = posts[0]
-  console.log('posts', posts)
-  const [firstBody, setFirstBody] = useState('')
+  // 가장 처음 발행한 포스트(리스트의 마지막 요소)
+  const pinnedPost = posts[posts.length - 1]
+  // 최신 글 7개 추출 (가장 최근순)
+  const latestPosts = posts.slice(0, 7)
+  const [pinnedBody, setPinnedBody] = useState('')
 
   useEffect(() => {
-    if (firstPost) {
-      getPostBody(firstPost.slug).then(setFirstBody)
+    if (pinnedPost) {
+      getPostBody(pinnedPost.slug).then(setPinnedBody)
     }
-  }, [firstPost])
+  }, [pinnedPost])
 
   return (
     <>
@@ -39,23 +41,26 @@ export default function Home() {
             최신 글
           </h2>
 
-          {firstPost && (
-            <div className="flex justify-center">
-              <ArticleCard
-                title={firstPost.title}
-                category={firstPost.categories?.[0] || firstPost.category || ''}
-                slug={firstPost.slug}
-                imageQuery="universe,galaxy,space"
-                shape="rounded"
-                thumbnail={firstPost.thumbnail as string | undefined}
-              />
+          {latestPosts && (
+            <div className="flex flex-wrap justify-center gap-2">
+              {latestPosts.map((post) => (
+                <ArticleCard
+                  key={post.slug}
+                  title={post.title}
+                  category={post.categories?.[0] || post.category || ''}
+                  slug={post.slug}
+                  imageQuery="science"
+                  thumbnail={post.thumbnail as string | undefined}
+                  showCategory={false}
+                />
+              ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* 첫 포스트 본문 고정 섹션 */}
-      {firstBody && (
+      {/* 첫 포스트(가장 오래된 글) 본문 고정 섹션 */}
+      {pinnedBody && (
         <section className="relative bg-white dark:bg-gray-900 pb-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
@@ -99,7 +104,7 @@ export default function Home() {
                   /* eslint-enable @typescript-eslint/no-explicit-any */
                 }}
               >
-                {firstBody}
+                {pinnedBody}
               </ReactMarkdown>
             </div>
           </div>

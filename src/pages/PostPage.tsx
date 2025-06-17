@@ -9,6 +9,7 @@ import rehypeRaw from 'rehype-raw'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import { posts, getPostBody } from '../lib/posts'
+import { Link } from 'react-router-dom'
 
 export default function PostPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -183,6 +184,10 @@ export default function PostPage() {
         >
           {processedBody}
         </ReactMarkdown>
+
+        {/* 이전/다음 글 네비게이션 */}
+        <hr className="mt-16 mb-8" />
+        <PostNavigator currentSlug={slug} />
       </article>
 
       {/* 목차 */}
@@ -210,5 +215,34 @@ export default function PostPage() {
         </aside>
       )}
     </div>
+  )
+}
+
+/* --- 하단 네비게이션 컴포넌트 --- */
+function PostNavigator({ currentSlug }: { currentSlug: string }) {
+  const index = posts.findIndex((p) => p.slug === currentSlug)
+  const prev = index > 0 ? posts[index - 1] : null // 최신 글이 앞에 위치
+  const next = index < posts.length - 1 ? posts[index + 1] : null // 오래된 글
+
+  return (
+    <nav className="flex justify-between text-sm">
+      {next ? (
+        <Link
+          to={`/article/${next.slug}`}
+          className="text-blue-500 hover:text-blue-700 block whitespace-nowrap"
+        >
+          ← {next.title}
+        </Link>
+      ) : <span />}
+
+      {prev ? (
+        <Link
+          to={`/article/${prev.slug}`}
+          className="text-blue-500 hover:text-blue-700 block text-right whitespace-nowrap"
+        >
+          {prev.title} →
+        </Link>
+      ) : <span />}
+    </nav>
   )
 } 

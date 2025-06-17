@@ -1,6 +1,16 @@
 import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import Hero from '../components/Hero'
 import ArticleCard from '../components/ArticleCard'
+import { posts, getPostBody } from '../lib/posts'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import remarkBreaks from 'remark-breaks'
+import remarkMath from 'remark-math'
+import rehypeRaw from 'rehype-raw'
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeKatex from 'rehype-katex'
 
 const categoryDescriptions = {
   space: '무한한 우주의 신비를 탐험하는 여정',
@@ -18,22 +28,26 @@ const categoryNameMap = {
   math: '수학'
 }
 
-// 임시 데이터 생성 함수
-function generateArticles(category: string) {
-  return Array.from({ length: 6 }, (_, i) => ({
-    title: `${category} 관련 글 ${i + 1}`,
-    excerpt: `${category}에 대한 흥미로운 발견과 연구 내용을 소개합니다...`,
-    category: category,
-    slug: `${category.toLowerCase()}-article-${i + 1}`,
-    imageQuery: `${category.toLowerCase()}-science-${i + 1}`
-  }))
-}
-
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>()
   const koreanCategoryName = category ? categoryNameMap[category as keyof typeof categoryNameMap] : ''
   const description = category ? categoryDescriptions[category as keyof typeof categoryDescriptions] || '' : ''
-  const articles = generateArticles(koreanCategoryName || '일반')
+
+  // 실제 포스트 중 해당 카테고리에 포함되는 글 추출 (최신순)
+  const categoryPosts = posts.filter((p) => {
+    const list = p.categories || (p.category ? [p.category] : [])
+    return list?.includes(koreanCategoryName)
+  })
+
+  const latestTwo = categoryPosts.slice(0, 2)
+  const firstPost = latestTwo[0]
+  const [body, setBody] = useState('')
+
+  useEffect(() => {
+    if (firstPost) {
+      getPostBody(firstPost.slug).then(setBody)
+    }
+  }, [firstPost])
 
   return (
     <div className="min-h-screen">
@@ -42,14 +56,35 @@ export default function CategoryPage() {
         title={`${koreanCategoryName} 카테고리`}
         description={description}
       />
-      
+
       <main className="relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-16 -mt-16">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-2">
-            {articles.map((article) => (
-              <ArticleCard key={article.slug} {...article} />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* 최신 글 2개 카드 */}
+          <div className="flex flex-wrap justify-center gap-2 mb-12">
+            {latestTwo.map((post) => (
+              <ArticleCard
+                key={post.slug}
+                title={post.title}
+                category={koreanCategoryName}
+                slug={post.slug}
+                imageQuery="space"
+                /* default circle shape */
+              />
             ))}
           </div>
+
+          {/* 최신 글 본문 */}
+          {body && (
+            <div className="prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
+              <h2 className="text-center mb-6 font-extrabold text-3xl">{firstPost?.title}</h2>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+                rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings, rehypeKatex]}
+              >
+                {body}
+              </ReactMarkdown>
+            </div>
+          )}
         </div>
       </main>
     </div>

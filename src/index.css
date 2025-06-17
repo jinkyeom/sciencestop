@@ -104,3 +104,9 @@ li[data-timestamp] {
   padding-left: 5.5rem;
   text-indent: -5.5rem;
 }
+
+/* 더 넓은 문단 간격 */
+.post-content p {
+  margin-top: 0;
+  margin-bottom: 1.6rem; /* 기본 prose spacing 보다 더 넉넉하게 */
+}
