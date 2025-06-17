@@ -49,7 +49,7 @@ export default function ArticleCard({ title, category, slug, imageQuery, thumbna
 
       {/* 제목 + 카테고리 (아주 작은 글씨) */}
       <div className="space-y-1 text-center">
-        <h3 className="text-[11px] font-medium text-gray-900 dark:text-white max-w-[90px] line-clamp-2">
+        <h3 className="text-xs md:text-sm font-medium text-gray-900 dark:text-white max-w-[120px] line-clamp-3">
           {title}
         </h3>
         {showCategory && (

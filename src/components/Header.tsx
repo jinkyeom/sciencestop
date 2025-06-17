@@ -51,7 +51,7 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-transform duration-300 ${hideHeader ? '-translate-y-full' : 'translate-y-0'}`}>
       <div className="flex justify-between items-start p-4 gap-2">
         {/* 좌측 로고/타이틀 */}
-        <Link to="/" className="text-xl font-bold !text-purple-300 hover:!text-purple-400 dark:!text-purple-300 dark:hover:!text-purple-400 transition-colors hidden md:block">
+        <Link to="/" className="font-title text-xl font-bold !text-purple-300 hover:!text-purple-400 dark:!text-purple-300 dark:hover:!text-purple-400 transition-colors hidden md:block">
           과학정류장
         </Link>
         {/* 우측 메뉴/토글 */}

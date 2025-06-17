@@ -5,12 +5,14 @@ import ScrollToTopButton from './components/ScrollToTopButton'
 import Home from './pages/Home'
 import CategoryPage from './pages/CategoryPage'
 import PostPage from './pages/PostPage'
+import ScrollToTop from './components/ScrollToTop'
 import "./index.css" // Tailwind CSS import
 
 export default function App() {
   return (
     <Router>
       <div className="min-h-screen">
+        <ScrollToTop />
         <Header />
         <main className="relative">
           <Routes>
