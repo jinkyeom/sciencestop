@@ -31,7 +31,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  @apply font-body bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300;
+  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300;
+  font-family: 'PretendardVariable', ui-sans-serif, system-ui;
 }
 
 h1 {
@@ -117,7 +118,10 @@ li[data-timestamp] {
   margin-bottom: 1.8rem;
 }
 
-/* 제목에 타이틀 폰트 */
-h1, h2, .font-title {
-  @apply font-title;
+/* 타이틀, 본문 전용 유틸 */
+.font-title {
+  font-family: 'GmarketSansBold', ui-sans-serif, system-ui;
+}
+.font-body {
+  font-family: 'PretendardVariable', ui-sans-serif, system-ui;
 }

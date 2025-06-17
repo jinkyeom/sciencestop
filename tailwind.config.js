@@ -6,12 +6,7 @@ export default {
   ],
   darkMode: 'class',
   theme: {
-    extend: {
-      fontFamily: {
-        title: ['"GmarketSansBold"', 'sans-serif'],
-        body: ['"Pretendard Variable"', 'sans-serif'],
-      }
-    },
+    extend: {},
   },
   plugins: [],
 } 

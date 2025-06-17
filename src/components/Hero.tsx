@@ -100,7 +100,7 @@ export default function Hero({ category, title, description, isHome = false }: H
         <div className="max-w-4xl mx-auto pt-16">
           {isHome ? (
             <>
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight tracking-tight [text-shadow:_0_2px_4px_rgba(0,0,0,0.9)]">
+              <h1 className="font-title text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight tracking-tight [text-shadow:_0_2px_4px_rgba(0,0,0,0.9)]">
                 🔭 과학정류장에 오신 걸 환영합니다! 🔬
               </h1>
               <p className="text-xl md:text-2xl lg:text-3xl text-gray-100 mb-12 leading-relaxed max-w-3xl mx-auto [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)] font-medium">
@@ -136,7 +136,7 @@ export default function Hero({ category, title, description, isHome = false }: H
                   {category}
                 </span>
               )}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight [text-shadow:_0_2px_6px_rgba(0,0,0,0.95)]">
+              <h1 className="font-title text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight [text-shadow:_0_2px_6px_rgba(0,0,0,0.95)]">
                 {title}
               </h1>
               {description && (
