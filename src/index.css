@@ -1,6 +1,7 @@
 /* Tailwind CSS */
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
+@import "./fonts.css";
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -30,7 +31,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300;
+  @apply font-body bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300;
 }
 
 h1 {
@@ -114,4 +115,9 @@ li[data-timestamp] {
 /* 카테고리 페이지 본문 간격 */
 .category-content p {
   margin-bottom: 1.8rem;
+}
+
+/* 제목에 타이틀 폰트 */
+h1, h2, .font-title {
+  @apply font-title;
 }
