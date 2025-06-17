@@ -10,6 +10,7 @@ import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   // 가장 처음 발행한 포스트(리스트의 마지막 요소)
@@ -106,10 +107,30 @@ export default function Home() {
               >
                 {pinnedBody}
               </ReactMarkdown>
+
+              {/* 홈 하단 포스트 네비게이션 */}
+              <hr className="mt-16 mb-8" />
+              <HomeNavigator currentSlug={pinnedPost.slug} />
             </div>
           </div>
         </section>
       )}
     </>
+  )
+}
+
+/* --- 홈 네비게이터 --- */
+function HomeNavigator({ currentSlug }: { currentSlug: string }) {
+  const index = posts.findIndex((p) => p.slug === currentSlug)
+  const next = index > 0 ? posts[index - 1] : null // 더 최신 글
+
+  return (
+    <nav className="flex justify-end text-sm">
+      {next && (
+        <Link to={`/article/${next.slug}`} className="text-blue-500 hover:text-blue-700 whitespace-nowrap">
+          {next.title} →
+        </Link>
+      )}
+    </nav>
   )
 } 

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Hero from '../components/Hero'
 import ArticleCard from '../components/ArticleCard'
-import { posts, getPostBody } from '../lib/posts'
+import { posts, getPostBody, type PostMeta } from '../lib/posts'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
@@ -11,6 +11,7 @@ import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
+import { Link } from 'react-router-dom'
 
 const categoryDescriptions = {
   space: '무한한 우주의 신비를 탐험하는 여정',
@@ -68,25 +69,68 @@ export default function CategoryPage() {
                 category={koreanCategoryName}
                 slug={post.slug}
                 imageQuery="space"
-                /* default circle shape */
+                showCategory={false}
               />
             ))}
           </div>
 
           {/* 최신 글 본문 */}
           {body && (
-            <div className="prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
+            <div className="post-content category-content prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
               <h2 className="text-center mb-6 font-extrabold text-3xl">{firstPost?.title}</h2>
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
                 rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings, rehypeKatex]}
+                components={{
+                  h2: (props) => (
+                    <h2
+                      {...props}
+                      className="mt-10 mb-4 text-3xl leading-tight font-extrabold text-white"
+                    />
+                  ),
+                  h3: (props) => (
+                    <h3
+                      {...props}
+                      className="mt-8 mb-3 text-2xl leading-snug font-bold text-white"
+                    />
+                  )
+                }}
               >
                 {body}
               </ReactMarkdown>
+
+              {/* 카테고리 내 이전/다음 글 네비게이션 */}
+              <hr className="mt-16 mb-8" />
+              {firstPost && (
+                <CategoryNavigator currentSlug={firstPost.slug} posts={categoryPosts} />
+              )}
             </div>
           )}
         </div>
       </main>
     </div>
+  )
+}
+
+/* --- 카테고리 전용 네비게이션 --- */
+function CategoryNavigator({ currentSlug, posts }: { currentSlug: string; posts: PostMeta[] }) {
+  const index = posts.findIndex((p: PostMeta) => p.slug === currentSlug)
+  const prev = index > 0 ? posts[index - 1] : null
+  const next = index < posts.length - 1 ? posts[index + 1] : null
+
+  return (
+    <nav className="flex justify-between text-sm">
+      {next ? (
+        <Link to={`/article/${next.slug}`} className="text-blue-500 hover:text-blue-700 whitespace-nowrap">
+          ← {next.title}
+        </Link>
+      ) : <span />}
+
+      {prev ? (
+        <Link to={`/article/${prev.slug}`} className="text-blue-500 hover:text-blue-700 whitespace-nowrap text-right">
+          {prev.title} →
+        </Link>
+      ) : <span />}
+    </nav>
   )
 } 

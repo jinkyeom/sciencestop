@@ -110,3 +110,8 @@ li[data-timestamp] {
   margin-top: 0;
   margin-bottom: 1.6rem; /* 기본 prose spacing 보다 더 넉넉하게 */
 }
+
+/* 카테고리 페이지 본문 간격 */
+.category-content p {
+  margin-bottom: 1.8rem;
+}
