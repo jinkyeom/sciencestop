@@ -66,12 +66,15 @@ export default function Hero({ category, title, description, isHome = false }: H
 
   return (
     <div className="relative h-[100vh] w-full overflow-hidden bg-white dark:bg-gray-900">
+      {/* 배경 이미지 */}
       <div className="absolute inset-0 w-full h-full">
         <img
           src={imageUrl}
           alt={category || 'science'}
           className="w-full h-full object-cover"
         />
+        {/* 다크 모드 가독성을 위한 오버레이 */}
+        <div className="absolute inset-0 bg-white/0 dark:bg-black/60" aria-hidden="true" />
       </div>
       
       {/* 메인 문구 주변 배경 음영만 살리고 전체 오버레이는 제거 */}
@@ -100,8 +103,8 @@ export default function Hero({ category, title, description, isHome = false }: H
         <div className="max-w-4xl mx-auto pt-16">
           {isHome ? (
             <>
-              <h1 className="font-title text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-8 leading-tight tracking-tight [text-shadow:_0_2px_4px_rgba(0,0,0,0.9)]">
-                🔭 과학정류장에 오신 걸 환영합니다! 🔬
+              <h1 className="font-title text-2xl md:text-3xl lg:text-5xl font-bold text-white force-white mb-8 leading-tight tracking-tight [text-shadow:_0_2px_4px_rgba(0,0,0,0.9)]" style={{color:'#ffffff'}}>
+                🔭 <span className="text-[#d1c7ff]">과학정류장</span>에 오신 걸 환영합니다! 🔬
               </h1>
               <p className="text-xl md:text-2xl lg:text-3xl text-gray-100 mb-12 leading-relaxed max-w-3xl mx-auto [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)] font-medium">
                 우주, 뇌, 생명 등 흥미로운 과학 콘텐츠를 큐레이션합니다.
@@ -136,7 +139,7 @@ export default function Hero({ category, title, description, isHome = false }: H
                   {category}
                 </span>
               )}
-              <h1 className="font-title text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight [text-shadow:_0_2px_6px_rgba(0,0,0,0.95)]">
+              <h1 className="font-title text-2xl md:text-3xl lg:text-4xl font-extrabold text-white mb-6 leading-tight [text-shadow:_0_2px_6px_rgba(0,0,0,0.95)]" style={{color:'#fff'}}>
                 {title}
               </h1>
               {description && (

@@ -152,3 +152,7 @@ li[data-timestamp] p {
 html, body, #root {
   overflow-x: hidden;
 }
+
+.force-white {
+  color: #fff !important;
+}
