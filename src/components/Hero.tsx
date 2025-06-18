@@ -68,8 +68,8 @@ export default function Hero({ category, title, description, isHome = false }: H
     <div
       className="relative w-full overflow-hidden bg-white dark:bg-gray-900"
       style={{
-        height: '100dvh',
-        minHeight: '100vh',
+        height: '100svh',
+        minHeight: '100svh',
         backgroundImage: `url(${imageUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',

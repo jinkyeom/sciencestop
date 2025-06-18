@@ -72,7 +72,7 @@ export default function Header() {
         {/* 좌측 로고/타이틀 */}
         <Link
           to="/"
-          className="font-title text-xl md:text-2xl lg:text-3xl font-bold !text-[#d1c7ff] hover:!text-purple-400 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block [text-shadow:_0_2px_4px_rgba(0,0,0,0.6)]">
+          className="font-title text-2xl md:text-3xl lg:text-4xl font-bold !text-[#9d8bff] hover:!text-purple-500 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block [text-shadow:_0_2px_4px_rgba(0,0,0,0.8)]">
           과학정류장
         </Link>
         {/* 우측 컨트롤: flex row, 항상 같은 위치 */}
@@ -95,7 +95,15 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="메뉴 열기"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6 text-gray-800 dark:text-gray-300" /> : <Menu className="w-6 h-6 text-gray-800 dark:text-gray-300" />}
+            {mobileMenuOpen ? (
+              <X
+                className="w-6 h-6 text-[#d1c7ff] dark:text-gray-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
+              />
+            ) : (
+              <Menu
+                className="w-6 h-6 text-[#d1c7ff] dark:text-gray-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
+              />
+            )}
           </button>
         </div>
         {/* 데스크탑 메뉴: md 이상에서만 보임 */}
@@ -123,7 +131,7 @@ export default function Header() {
       {/* 모바일 메뉴 오버레이: md 미만에서만, 햄버거 메뉴 열렸을 때 */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={() => setMobileMenuOpen(false)}>
-          <div className="absolute top-16 right-0 w-1/4 min-w-[80px] max-w-xs bg-white dark:bg-gray-900 rounded-lg shadow-lg p-2" onClick={e => e.stopPropagation()}>
+          <div className="absolute top-16 right-0 w-[18%] min-w-[72px] max-w-[180px] bg-white dark:bg-gray-900 rounded-lg shadow-lg p-2" onClick={e => e.stopPropagation()}>
             <nav className="flex flex-col gap-1 text-center">
               {menuItems.map((item) => {
                 const isActive = item.href === '/'
