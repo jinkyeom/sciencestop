@@ -72,7 +72,7 @@ export default function Header() {
         {/* 좌측 로고/타이틀 */}
         <Link
           to="/"
-          className="font-title text-1xl md:text-2xl lg:text-3xl font-bold !text-[#d1c7ff] hover:!text-purple-400 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block [text-shadow:_0_2px_4px_rgba(0,0,0,0.6)]">
+          className="font-title text-xl md:text-2xl lg:text-3xl font-bold !text-[#d1c7ff] hover:!text-purple-400 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block [text-shadow:_0_2px_4px_rgba(0,0,0,0.6)]">
           과학정류장
         </Link>
         {/* 우측 컨트롤: flex row, 항상 같은 위치 */}
