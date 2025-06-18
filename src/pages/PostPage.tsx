@@ -102,18 +102,34 @@ export default function PostPage() {
   if (!meta) return <div className="p-8">글을 찾을 수 없습니다.</div>
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 pt-32 flex gap-8">
+    <div className="mx-auto max-w-[1440px] px-2 sm:px-4 lg:px-6 py-4 pt-32 flex flex-nowrap gap-8">
       <article
         ref={articleRef}
-        className="prose dark:prose-invert lg:prose-lg flex-1 post-content"
+        className="prose dark:prose-invert lg:prose-xl max-w-none flex-1 post-content sm:px-4 px-2 pr-4 lg:pr-8 lg:mr-72 py-6 lg:py-8 bg-[#dcd5ff]/40 dark:bg-transparent rounded-xl"
       >
-        <h1 className="mt-0 mb-4 text-2xl md:text-3xl font-extrabold leading-tight">{meta.title}</h1>
+        <h1 className="mt-0 mb-4 text-2xl md:text-3xl font-extrabold leading-tight bg-transparent">{meta.title}</h1>
         <p className="text-sm opacity-70 mb-6">
           {meta.date instanceof Date ? meta.date.toLocaleDateString('ko-KR') : meta.date}
           {meta.tags && meta.tags.length > 0 && (
             <> · {meta.tags.join(', ')}</>
           )}
         </p>
+
+        {/* 모바일 전용 목차 */}
+        {toc.length > 0 && (
+          <details className="lg:hidden mb-6 bg-purple-100/40 rounded-md p-4">
+            <summary className="font-bold cursor-pointer">목차</summary>
+            <ul className="mt-2 space-y-1 text-sm">
+              {toc.map((item) => (
+                <li key={item.id} className={item.level === 3 ? 'ml-4' : ''}>
+                  <a href={`#${item.id}`} className="text-blue-600 hover:underline">
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
 
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
@@ -156,7 +172,18 @@ export default function PostPage() {
                   </span>
                 )
               }
-              return <a href={href} {...props}>{children}</a>
+              return <a
+                href={href}
+                {...props}
+                onClick={() => {
+                  window.location.hash = href || '';
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }, 0);
+                }}
+              >
+                {children}
+              </a>
             },
             li: ({ children, ...props }) => {
               const extractPlain = (n: unknown): string => {
@@ -204,8 +231,8 @@ export default function PostPage() {
 
       {/* 목차 */}
       {toc.length > 0 && (
-        <aside className="hidden xl:block w-64">
-          <div className="sticky top-24">
+        <aside className="hidden lg:block fixed right-6 top-24 w-64 z-20">
+          <div>
             <h2 className="text-sm font-bold mb-3 text-center">목차</h2>
             <ul className="space-y-1 text-sm">
               {toc.map((item) => (
@@ -242,6 +269,11 @@ function PostNavigator({ currentSlug }: { currentSlug: string }) {
         <Link
           to={`/article/${next.slug}`}
           className="text-blue-500 hover:text-blue-700 block whitespace-nowrap"
+          onClick={() => {
+            setTimeout(() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 0);
+          }}
         >
           ← {next.title}
         </Link>
@@ -250,11 +282,16 @@ function PostNavigator({ currentSlug }: { currentSlug: string }) {
       {prev ? (
         <Link
           to={`/article/${prev.slug}`}
-          className="text-blue-500 hover:text-blue-700 block text-right whitespace-nowrap"
+          className="text-blue-500 hover:text-blue-700 block whitespace-nowrap"
+          onClick={() => {
+            setTimeout(() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 0);
+          }}
         >
           {prev.title} →
         </Link>
       ) : <span />}
     </nav>
   )
-} 
+}

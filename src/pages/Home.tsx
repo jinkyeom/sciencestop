@@ -36,7 +36,7 @@ export default function Home() {
       </div>
 
       {/* Hero 바로 아래 첫 포스팅 표시 */}
-      <section className="relative bg-white dark:bg-gray-900 pt-12 pb-10">
+      <section className="relative z-30 isolate pt-12 pb-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">
             최신 글
@@ -62,9 +62,9 @@ export default function Home() {
 
       {/* 첫 포스트(가장 오래된 글) 본문 고정 섹션 */}
       {pinnedBody && (
-        <section className="relative bg-white dark:bg-gray-900 pb-16">
+        <section className="relative z-30 isolate pb-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
+            <div className="prose lg:prose-lg mx-auto max-w-4xl bg-[#dcd5ff]/40 dark:bg-transparent rounded-xl px-6 sm:px-10 py-6 lg:py-8">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
                 rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings, rehypeKatex]}
@@ -72,13 +72,25 @@ export default function Home() {
                   h2: (props) => (
                     <h2
                       {...props}
-                      className="mt-10 mb-4 text-3xl leading-tight font-extrabold text-white"
+                      className="mt-10 mb-4 text-3xl leading-tight font-extrabold"
                     />
                   ),
                   h3: (props) => (
                     <h3
                       {...props}
-                      className="mt-8 mb-3 text-2xl leading-snug font-bold text-white"
+                      className="mt-8 mb-3 text-2xl leading-snug font-bold"
+                    />
+                  ),
+                  strong: (props) => (
+                    <strong
+                      {...props}
+                      className="font-bold"
+                    />
+                  ),
+                  em: (props) => (
+                    <em
+                      {...props}
+                      className="italic"
                     />
                   ),
                   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -95,7 +107,7 @@ export default function Home() {
                     const plain = extractPlain(children)
                     if (/^\[?\d{2}:\d{2}\]?/.test(plain)) {
                       return (
-                        <li data-timestamp className="timestamp-li list-none" {...props}>
+                        <li data-timestamp className="list-none" {...props}>
                           {children}
                         </li>
                       )

@@ -70,16 +70,16 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 w-full z-[9999] transition-transform duration-300 ${hideHeader ? '-translate-y-full' : 'translate-y-0'}`} style={{overflow: 'visible'}}>
       <div className="flex justify-between items-center py-4 px-2 md:px-4 gap-2 w-full">
         {/* 좌측 로고/타이틀 */}
-        <Link to="/" className="font-title text-xl font-bold !text-[#d1c7ff] hover:!text-purple-400 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block">
+        <Link to="/" className="font-title text-xl font-bold !text-[#d1c7ff] hover:!text-purple-400 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block [text-shadow:_0_2px_4px_rgba(0,0,0,0.6)]">
           과학정류장
         </Link>
         {/* 우측 컨트롤: flex row, 항상 같은 위치 */}
-        <div className="flex items-center gap-0 ml-auto pr-4 justify-end">
+        <div className="flex items-center gap-0 ml-auto pr-0 justify-end">
           {/* 다크 모드 토글: 항상 렌더링, md 이상/미만 모두 */}
           <button
             onClick={toggleDarkMode}
             aria-label="Toggle dark mode"
-            className="p-2 rounded-md !bg-transparent text-gray-800 dark:text-gray-100 hover:bg-gray-700/20 dark:hover:bg-gray-200/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400 transition-colors mr-0"
+            className="p-2 rounded-md !bg-transparent text-gray-800 dark:text-gray-100 hover:bg-gray-700/20 dark:hover:bg-gray-200/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400 transition-colors m-0"
           >
             {darkMode ? (
               <Sun className="w-5 h-5 text-yellow-400" />
@@ -89,7 +89,7 @@ export default function Header() {
           </button>
           {/* 햄버거 메뉴: md 이상에서 숨김, md 미만에서만 보임 */}
           <button
-            className="p-2 rounded-md text-gray-800 dark:text-gray-300 !bg-transparent md:hidden ml-0 mr-0"
+            className="p-2 rounded-md text-gray-800 dark:text-gray-300 !bg-transparent md:hidden m-0"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="메뉴 열기"
           >
@@ -121,8 +121,8 @@ export default function Header() {
       {/* 모바일 메뉴 오버레이: md 미만에서만, 햄버거 메뉴 열렸을 때 */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={() => setMobileMenuOpen(false)}>
-          <div className="absolute top-16 right-0 w-1/3 min-w-[100px] max-w-xs bg-white dark:bg-gray-900 rounded-lg shadow-lg p-2" onClick={e => e.stopPropagation()}>
-            <nav className="flex flex-col gap-1">
+          <div className="absolute top-16 right-0 w-1/4 min-w-[80px] max-w-xs bg-white dark:bg-gray-900 rounded-lg shadow-lg p-2" onClick={e => e.stopPropagation()}>
+            <nav className="flex flex-col gap-1 text-center">
               {menuItems.map((item) => {
                 const isActive = item.href === '/'
                   ? location.pathname === '/'

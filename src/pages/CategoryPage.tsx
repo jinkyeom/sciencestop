@@ -85,13 +85,13 @@ export default function CategoryPage() {
                   h2: (props) => (
                     <h2
                       {...props}
-                      className="mt-10 mb-4 text-3xl leading-tight font-extrabold text-white"
+                      className="mt-10 mb-4 text-3xl leading-tight font-extrabold"
                     />
                   ),
                   h3: (props) => (
                     <h3
                       {...props}
-                      className="mt-8 mb-3 text-2xl leading-snug font-bold text-white"
+                      className="mt-8 mb-3 text-2xl leading-snug font-bold"
                     />
                   )
                 }}
@@ -121,13 +121,29 @@ function CategoryNavigator({ currentSlug, posts }: { currentSlug: string; posts:
   return (
     <nav className="flex justify-between text-sm">
       {next ? (
-        <Link to={`/article/${next.slug}`} className="text-blue-500 hover:text-blue-700 whitespace-nowrap">
+        <Link
+          to={`/article/${next.slug}`}
+          className="text-blue-500 hover:text-blue-700 whitespace-nowrap"
+          onClick={() => {
+            setTimeout(() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 0);
+          }}
+        >
           ← {next.title}
         </Link>
       ) : <span />}
 
       {prev ? (
-        <Link to={`/article/${prev.slug}`} className="text-blue-500 hover:text-blue-700 whitespace-nowrap text-right">
+        <Link
+          to={`/article/${prev.slug}`}
+          className="text-blue-500 hover:text-blue-700 whitespace-nowrap text-right"
+          onClick={() => {
+            setTimeout(() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 0);
+          }}
+        >
           {prev.title} →
         </Link>
       ) : <span />}

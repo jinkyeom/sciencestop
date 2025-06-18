@@ -11,5 +11,8 @@ export default {
   plugins: [],
   safelist: [
     'text-white',
+    'text-2xl',
+    'md:text-3xl',
+    'lg:text-5xl',
   ],
 } 

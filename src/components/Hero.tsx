@@ -65,21 +65,23 @@ export default function Hero({ category, title, description, isHome = false }: H
   const imageUrl = isHome ? categoryImages[currentCategory.name] : categoryImages[category || '홈']
 
   return (
-    <div className="relative h-[100vh] w-full overflow-hidden bg-white dark:bg-gray-900">
-      {/* 배경 이미지 */}
-      <div className="absolute inset-0 w-full h-full">
-        <img
-          src={imageUrl}
-          alt={category || 'science'}
-          className="w-full h-full object-cover"
-        />
-        {/* 다크 모드 가독성을 위한 오버레이 */}
-        <div className="absolute inset-0 bg-white/0 dark:bg-black/60" aria-hidden="true" />
-      </div>
+    <div
+      className="relative w-full overflow-hidden bg-white dark:bg-gray-900"
+      style={{
+        height: '100dvh',
+        minHeight: '100vh',
+        backgroundImage: `url(${imageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* 다크 모드 가독성을 위한 오버레이 */}
+      <div className="absolute inset-0 bg-white/0 dark:bg-black/60" aria-hidden="true" />
       
       {/* 메인 문구 주변 배경 음영만 살리고 전체 오버레이는 제거 */}
       
-      <div className="relative h-full flex flex-col justify-start items-center text-center p-4 pt-28 md:pt-36">
+      <div className="relative h-full flex flex-col justify-center items-center text-center p-4 pt-0 md:pt-0">
         {/* 좌우 네비게이션 버튼 (홈에서만 표시) */}
         {isHome && (
           <>

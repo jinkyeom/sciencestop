@@ -95,6 +95,74 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+  body .prose,
+  body .prose > *,
+  body .prose *,
+  body .prose p,
+  body .prose ul,
+  body .prose ol,
+  body .prose li,
+  body .prose div,
+  body .prose blockquote,
+  body .prose table,
+  body .prose th,
+  body .prose td {
+    background-color: #d1c7ff !important;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  body .prose,
+  body .prose > *,
+  body .prose *,
+  body .prose p,
+  body .prose ul,
+  body .prose ol,
+  body .prose li,
+  body .prose div,
+  body .prose blockquote,
+  body .prose table,
+  body .prose th,
+  body .prose td {
+    background-color: transparent !important;
+  }
+}
+
+/* 라이트 모드에서 포스트 본문 배경을 과학정류장 색상으로 */
+body article.prose {
+  background-color: rgba(209, 199, 255, 0.7) !important;
+}
+@media (prefers-color-scheme: dark) {
+  body article.prose {
+    background-color: transparent !important;
+  }
+}
+body .prose, 
+body .prose > *, 
+body .prose p, 
+body .prose ul, 
+body .prose ol, 
+body .prose li, 
+body .prose div, 
+body .prose blockquote, 
+body .prose table, 
+body .prose th, 
+body .prose td {
+  background-color: #dcd5ff !important;
+}
+@media (prefers-color-scheme: dark) {
+  body .prose, 
+  body .prose > *, 
+  body .prose p, 
+  body .prose ul, 
+  body .prose ol, 
+  body .prose li, 
+  body .prose div, 
+  body .prose blockquote, 
+  body .prose table, 
+  body .prose th, 
+  body .prose td {
+    background-color: transparent !important;
+  }
 }
 
 /* timestamp list – 한 줄 왼쪽에 시각 링크 고정, 본문은 일정하게 들여쓰기 */
@@ -140,6 +208,18 @@ li[data-timestamp] p {
     padding-right: 0.1rem !important;
     box-sizing: border-box;
   }
+  .prose, .post-content {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  body .prose, body .prose > *, body .prose p, body .prose h1, body .prose h2, body .prose h3, body .prose h4, body .prose h5, body .prose h6,
+  body .prose ul, body .prose ol, body .prose li, body .prose li[data-timestamp] {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box;
+  }
   h1, h2, h3, h4, h5, h6 {
     word-break: keep-all;
   }
@@ -147,12 +227,50 @@ li[data-timestamp] p {
     max-width: 100% !important;
     height: auto !important;
   }
+  body .prose li[data-timestamp] {
+    padding-left: 0 !important;
+    text-indent: 0 !important;
+    margin-left: 0 !important;
+  }
 }
 
 html, body, #root {
-  overflow-x: hidden;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: auto !important;
 }
 
 .force-white {
   color: #fff !important;
 }
+
+/* === Post prose background override START === */
+html:not(.dark) body .prose, 
+html:not(.dark) body .prose > *,
+html:not(.dark) body .prose *,
+html:not(.dark) body .prose p,
+html:not(.dark) body .prose ul,
+html:not(.dark) body .prose ol,
+html:not(.dark) body .prose li,
+html:not(.dark) body .prose div,
+html:not(.dark) body .prose blockquote,
+html:not(.dark) body .prose table,
+html:not(.dark) body .prose th,
+html:not(.dark) body .prose td {
+  background-color: #dcd5ff !important;
+}
+html.dark body .prose,
+html.dark body .prose > *,
+html.dark body .prose *,
+html.dark body .prose p,
+html.dark body .prose ul,
+html.dark body .prose ol,
+html.dark body .prose li,
+html.dark body .prose div,
+html.dark body .prose blockquote,
+html.dark body .prose table,
+html.dark body .prose th,
+html.dark body .prose td {
+  background-color: transparent !important;
+}
+/* === Post prose background override END === */
