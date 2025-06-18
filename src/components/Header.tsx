@@ -70,7 +70,9 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 w-full z-[9999] transition-transform duration-300 ${hideHeader ? '-translate-y-full' : 'translate-y-0'}`} style={{overflow: 'visible'}}>
       <div className="flex justify-between items-center py-4 px-2 md:px-4 gap-2 w-full">
         {/* 좌측 로고/타이틀 */}
-        <Link to="/" className="font-title text-xl font-bold !text-[#d1c7ff] hover:!text-purple-400 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block [text-shadow:_0_2px_4px_rgba(0,0,0,0.6)]">
+        <Link
+          to="/"
+          className="font-title text-1xl md:text-2xl lg:text-3xl font-bold !text-[#d1c7ff] hover:!text-purple-400 dark:!text-[#d1c7ff] dark:hover:!text-purple-300 transition-colors block [text-shadow:_0_2px_4px_rgba(0,0,0,0.6)]">
           과학정류장
         </Link>
         {/* 우측 컨트롤: flex row, 항상 같은 위치 */}

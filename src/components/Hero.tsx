@@ -76,12 +76,18 @@ export default function Hero({ category, title, description, isHome = false }: H
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* 다크 모드 가독성을 위한 오버레이 */}
-      <div className="absolute inset-0 bg-white/0 dark:bg-black/60" aria-hidden="true" />
+      {/* 밝기 보정: 라이트 모드에서는 사진을 70 % 흰색 + screen 블렌드로 더 밝게,
+         다크 모드에서는 기존보다 살짝 어둡게 */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none
+                   bg-white/90 mix-blend-screen
+                   dark:bg-black/20 dark:mix-blend-normal" />
       
-      {/* 메인 문구 주변 배경 음영만 살리고 전체 오버레이는 제거 */}
-      
-      <div className="relative h-full flex flex-col justify-center items-center text-center p-4 pt-0 md:pt-0">
+      <div
+        className={`relative h-full flex flex-col items-center text-center px-4 ${
+          isHome ? 'justify-start pt-[12vh]' : 'justify-center pt-0 md:pt-0'
+        }`}>
         {/* 좌우 네비게이션 버튼 (홈에서만 표시) */}
         {isHome && (
           <>
