@@ -2,9 +2,16 @@
   command = "npm run build"
   publish = "dist"
 
+# OG·기타 정적 자산은 그대로 반환 -----------------------------
+[[redirects]]
+  from = "/og/*"
+  to   = "/og/:splat"
+  status = 200
+
+# SPA 라우팅 (그 밖의 모든 경로) -------------------------------
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to   = "/index.html"
   status = 200
 
 # [build.environment] NODE_VERSION = "20"
