@@ -102,12 +102,12 @@ export default function PostPage() {
   if (!meta) return <div className="p-8">글을 찾을 수 없습니다.</div>
 
   return (
-    <div className="container mx-auto flex gap-8 py-16">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 pt-32 flex gap-8">
       <article
         ref={articleRef}
         className="prose dark:prose-invert lg:prose-lg flex-1 post-content"
       >
-        <h1>{meta.title}</h1>
+        <h1 className="mt-0 mb-4 text-2xl md:text-3xl font-extrabold leading-tight">{meta.title}</h1>
         <p className="text-sm opacity-70 mb-6">
           {meta.date instanceof Date ? meta.date.toLocaleDateString('ko-KR') : meta.date}
           {meta.tags && meta.tags.length > 0 && (
@@ -125,23 +125,35 @@ export default function PostPage() {
                 const join = src.includes('?') ? '&' : '?'
                 src += `${join}enablejsapi=1&cc_load_policy=1&cc_lang_pref=ko&hl=ko`
               }
-              return <iframe ref={iframeRef} {...props} src={src} className="w-full aspect-video" />
+              const isCosmicCalendar = meta?.slug === "2025-06-17-cosmic-calendar";
+              return (
+                <iframe
+                  ref={iframeRef}
+                  {...props}
+                  src={src}
+                  className={isCosmicCalendar ? "w-full aspect-[9/16]" : "w-full aspect-video"}
+                />
+              );
             },
             a: ({ href, children, ...props }) => {
               if (href && href.startsWith('#t')) {
                 const sec = parseInt(href.replace('#t', ''), 10)
+                const seek = () => {
+                  iframeRef.current?.contentWindow?.postMessage(
+                    JSON.stringify({ event: 'command', func: 'seekTo', args: [sec, true] }),
+                    '*'
+                  )
+                }
                 return (
-                  <button
-                    className="text-blue-500 underline hover:text-blue-700"
-                    onClick={() => {
-                      iframeRef.current?.contentWindow?.postMessage(
-                        JSON.stringify({ event: 'command', func: 'seekTo', args: [sec, true] }),
-                        '*'
-                      )
-                    }}
+                  <span
+                    role="link"
+                    tabIndex={0}
+                    onClick={seek}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') seek() }}
+                    className="cursor-pointer text-blue-500 underline hover:text-blue-700"
                   >
                     {children}
-                  </button>
+                  </span>
                 )
               }
               return <a href={href} {...props}>{children}</a>
@@ -161,7 +173,7 @@ export default function PostPage() {
               const plain = extractPlain(children)
               if (/^\[?\d{2}:\d{2}\]?/.test(plain)) {
                 return (
-                  <li data-timestamp className="timestamp-li list-none" {...props}>
+                  <li data-timestamp className="list-none" {...props}>
                     {children}
                   </li>
                 )
@@ -171,13 +183,13 @@ export default function PostPage() {
             h2: (props) => (
               <h2
                 {...props}
-                className="mt-10 mb-4 text-3xl leading-tight font-extrabold text-white"
+                className="mt-10 mb-4 text-3xl leading-tight font-extrabold"
               />
             ),
             h3: (props) => (
               <h3
                 {...props}
-                className="mt-8 mb-3 text-2xl leading-snug font-bold text-white"
+                className="mt-8 mb-3 text-2xl leading-snug font-bold"
               />
             )
           }}
@@ -194,7 +206,7 @@ export default function PostPage() {
       {toc.length > 0 && (
         <aside className="hidden xl:block w-64">
           <div className="sticky top-24">
-            <h2 className="text-sm font-bold mb-3 text-white text-center">목차</h2>
+            <h2 className="text-sm font-bold mb-3 text-center">목차</h2>
             <ul className="space-y-1 text-sm">
               {toc.map((item) => (
                 <li key={item.id} className={item.level === 3 ? 'ml-4' : ''}>
@@ -203,7 +215,7 @@ export default function PostPage() {
                     className={`block px-2 py-0.5 rounded no-underline transition-colors ${
                       activeId === item.id
                         ? 'bg-teal-500 !text-white'
-                        : '!text-white visited:!text-white hover:text-teal-300'
+                        : 'text-gray-500 visited:text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:visited:text-gray-400 dark:hover:text-white'
                     }`}
                   >
                     {item.text}
