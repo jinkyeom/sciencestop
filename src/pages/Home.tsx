@@ -11,12 +11,15 @@ import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
 import { Link } from 'react-router-dom'
+import Pagination from '../components/Pagination'
 
 export default function Home() {
   // 가장 처음 발행한 포스트(리스트의 마지막 요소)
   const pinnedPost = posts[posts.length - 1]
-  // 최신 글 7개 추출 (가장 최근순)
-  const latestPosts = posts.slice(0, 7)
+  const postsPerPage = 6
+  const [page, setPage] = useState(1)
+  const totalPages = Math.ceil(posts.length / postsPerPage)
+  const paginated = posts.slice((page - 1) * postsPerPage, page * postsPerPage)
   const [pinnedBody, setPinnedBody] = useState('')
 
   useEffect(() => {
@@ -42,9 +45,9 @@ export default function Home() {
             최신 글
           </h2>
 
-          {latestPosts && (
+          {paginated && (
             <div className="flex flex-wrap justify-center gap-2">
-              {latestPosts.map((post) => (
+              {paginated.map((post) => (
                 <ArticleCard
                   key={post.slug}
                   title={post.title}
@@ -57,6 +60,8 @@ export default function Home() {
               ))}
             </div>
           )}
+
+          <Pagination page={page} totalPages={totalPages} onChange={setPage} />
         </div>
       </section>
 

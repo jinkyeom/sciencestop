@@ -58,8 +58,8 @@ export default function CategoryPage() {
         description={description}
       />
 
-      <main className="relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-16 -mt-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="relative z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm py-16 mt-12 mb-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-8">
           {/* 최신 글 2개 카드 */}
           <div className="flex flex-wrap justify-center gap-2 mb-12">
             {latestTwo.map((post) => (
@@ -76,7 +76,7 @@ export default function CategoryPage() {
 
           {/* 최신 글 본문 */}
           {body && (
-            <div className="post-content category-content prose dark:prose-invert lg:prose-lg mx-auto max-w-4xl">
+            <div className="post-content category-content prose dark:prose-invert lg:prose-lg mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 my-12 pt-10 pb-12">
               <h2 className="text-center mb-6 font-extrabold text-3xl">{firstPost?.title}</h2>
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
